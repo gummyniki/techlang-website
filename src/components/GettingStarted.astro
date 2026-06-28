@@ -1,0 +1,172 @@
+---
+---
+
+<section class="getting-started" id="getting-started">
+    <div class="container">
+        <div data-animate>
+            <h2>Get Started</h2>
+            <p class="section-subtitle">Up and running in minutes</p>
+        </div>
+
+        <div class="steps">
+            <div class="step" data-animate data-delay="1">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Install dependencies</h3>
+                    <div class="code-block">
+                        <pre><code><span class="cm"># Arch Linux</span>
+sudo pacman -S llvm gcc cmake git
+
+<span class="cm"># Ubuntu/Debian</span>
+sudo apt install llvm-dev gcc cmake git
+
+<span class="cm"># macOS</span>
+brew install llvm gcc cmake</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step" data-animate data-delay="2">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Download Techlang</h3>
+                    <div class="code-block">
+                        <pre><code><span class="cm"># Download the pre-built binary (Linux x64)</span>
+wget https://github.com/gummyniki/techlang/releases/download/v0.2.0-alpha/techlang-linux-x64.tar.gz
+tar -xzf techlang-linux-x64.tar.gz
+cd techlang-linux-x64 && ./install.sh</code></pre>
+                    </div>
+                    <p class="or">or build from source:</p>
+                    <div class="code-block">
+                        <pre><code>git clone https://github.com/gummyniki/techlang
+cd techlang
+mkdir build && cd build
+cmake .. && make</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step" data-animate data-delay="3">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Write your first program</h3>
+                    <div class="code-block">
+                        <pre><code><span class="k">!import</span>(std.tec) <span class="k">as</span> std;
+
+<span class="k">function</span> <span class="f">main</span>() <span class="k">returns</span> <span class="t">none</span> &#123;
+    std.<span class="f">print</span>(<span class="s">"Hello from Techlang!"</span>);
+&#125;</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step" data-animate data-delay="4">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Compile and run</h3>
+                    <div class="code-block">
+                        <pre><code>techlang hello.tec
+./hello
+<span class="cm"># Hello from Techlang!</span></code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .getting-started {
+        padding: 6rem 2rem;
+        border-top: 1px solid var(--border);
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 0.75rem;
+    }
+
+    .section-subtitle {
+        text-align: center;
+        color: var(--text-muted);
+        margin-bottom: 3.5rem;
+        font-size: 1.1rem;
+    }
+
+    .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 2.25rem;
+    }
+
+    .step {
+        display: flex;
+        gap: 1.5rem;
+        align-items: flex-start;
+    }
+
+    .step-number {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        flex-shrink: 0;
+        font-size: 1rem;
+        box-shadow: 0 0 16px rgba(124, 106, 247, 0.3);
+    }
+
+    .step-content {
+        flex: 1;
+    }
+
+    h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .code-block {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 0.75rem;
+        transition: border-color 0.2s;
+    }
+
+    .code-block:hover {
+        border-color: #3a3a3a;
+    }
+
+    pre {
+        padding: 1rem 1.25rem;
+        font-size: 0.85rem;
+        line-height: 1.7;
+        overflow-x: auto;
+        color: var(--text);
+    }
+
+    .or {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .k  { color: #c792ea; }
+    .t  { color: #82aaff; }
+    .f  { color: #82e2ff; }
+    .s  { color: #c3e88d; }
+    .cm { color: #546e7a; }
+</style>

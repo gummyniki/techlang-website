@@ -1,0 +1,116 @@
+---
+const features = [
+    {
+        icon: "⚡",
+        title: "Native Performance",
+        description: "Compiles directly to native binaries via LLVM. No interpreter, no VM — just fast machine code."
+    },
+    {
+        icon: "🎮",
+        title: "GPU Compute via VecTec",
+        description: "Write GPU kernels in VecTec and call them from Techlang. Zero CUDA boilerplate — the compiler handles everything."
+    },
+    {
+        icon: "🔒",
+        title: "Statically Typed",
+        description: "Catch errors at compile time, not runtime. Strong type system with inference for clean, safe code."
+    },
+    {
+        icon: "📦",
+        title: "Module System",
+        description: "Split code across files with a clean import system. Functions are automatically namespaced by alias."
+    },
+    {
+        icon: "🔧",
+        title: "C Interop",
+        description: "Call C functions directly with the extern keyword. Full access to the C standard library and beyond."
+    },
+    {
+        icon: "✨",
+        title: "Clean Syntax",
+        description: "Familiar C-like syntax with modern features — structs, enums, any type, as casting, and more."
+    }
+];
+---
+
+<section class="features">
+    <div class="container">
+        <div data-animate>
+            <h2>Why Techlang?</h2>
+            <p class="section-subtitle">Everything you need, nothing you don't</p>
+        </div>
+        <div class="features-grid">
+            {features.map((f, i) => (
+                <div class="feature-card" data-animate data-delay={String(i + 1)}>
+                    <div class="feature-icon">{f.icon}</div>
+                    <h3>{f.title}</h3>
+                    <p>{f.description}</p>
+                </div>
+            ))}
+        </div>
+    </div>
+</section>
+
+<style>
+    .features {
+        padding: 6rem 2rem;
+        border-top: 1px solid var(--border);
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 0.75rem;
+    }
+
+    .section-subtitle {
+        text-align: center;
+        color: var(--text-muted);
+        margin-bottom: 3.5rem;
+        font-size: 1.1rem;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.25rem;
+    }
+
+    .feature-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1.75rem;
+        transition: border-color 0.25s, transform 0.3s, box-shadow 0.3s, opacity 0.55s, translate 0.55s;
+        cursor: default;
+    }
+
+    .feature-card:hover {
+        border-color: rgba(124, 106, 247, 0.5);
+        transform: translateY(-4px);
+        box-shadow: 0 8px 32px rgba(124, 106, 247, 0.1);
+    }
+
+    .feature-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+</style>

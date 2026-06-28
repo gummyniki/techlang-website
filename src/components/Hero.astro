@@ -1,0 +1,285 @@
+---
+---
+
+<section class="hero">
+    <nav>
+        <div class="logo">Techlang</div>
+        <div class="nav-links">
+            <a href="/docs">Docs</a>
+            <a href="https://gummyniki.github.io/portfolio/blog" target="_blank">Blog</a>
+            <a href="https://github.com/gummyniki/techlang" target="_blank">GitHub</a>
+        </div>
+    </nav>
+
+    <div class="hero-content">
+        <div class="glow-orb"></div>
+        <div class="badge">⚡ Now with GPU compute via VecTec</div>
+        <h1>A language built for <span class="accent">speed</span> and <span class="accent">simplicity</span></h1>
+        <p class="subtitle">
+            Techlang is a compiled, statically typed language targeting LLVM.
+            Pair it with VecTec for seamless GPU compute — zero boilerplate.
+        </p>
+        <div class="cta-buttons">
+            <a href="#getting-started" class="btn-primary">Get Started</a>
+            <a href="/docs" class="btn-secondary">
+                Read the Docs
+            </a>
+            <a href="https://github.com/gummyniki/techlang" class="btn-ghost" target="_blank">
+                GitHub ↗
+            </a>
+        </div>
+    </div>
+
+    <div class="hero-code">
+        <div class="code-window">
+            <div class="window-bar">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="filename">main.tec</span>
+            </div>
+            <pre><code><span class="c">// CPU code</span>
+<span class="k">!import</span>(std.tec) <span class="k">as</span> std;
+<span class="k">!import</span>(arrays.vtec) <span class="k">as</span> gpu;
+
+<span class="k">function</span> <span class="f">main</span>() <span class="k">returns</span> <span class="t">none</span> &#123;
+    <span class="t">ArrayOf</span>(<span class="t">float</span>) a = &#123;1.0, 2.0, 3.0, 4.0&#125;;
+    <span class="t">ArrayOf</span>(<span class="t">float</span>) b = &#123;5.0, 6.0, 7.0, 8.0&#125;;
+
+    <span class="c">// runs on your GPU automatically!</span>
+    <span class="t">ArrayOf</span>(<span class="t">float</span>) result = gpu.<span class="f">addArrays</span>(a, b);
+    std.<span class="f">print</span>(result[0]); <span class="c">// 6.0</span>
+&#125;</code></pre>
+        </div>
+        <div class="code-window vtec">
+            <div class="window-bar">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="filename">arrays.vtec</span>
+            </div>
+            <pre><code><span class="c">// GPU kernel</span>
+<span class="k">kernel</span> <span class="f">addArrays</span>(
+    <span class="t">ArrayOf</span>(<span class="t">float</span>) a,
+    <span class="t">ArrayOf</span>(<span class="t">float</span>) b
+) <span class="k">returns</span> <span class="t">ArrayOf</span>(<span class="t">float</span>) &#123;
+    <span class="t">int</span> id = <span class="f">threadId</span>();
+    <span class="k">return</span> a[id] + b[id];
+&#125;</code></pre>
+        </div>
+    </div>
+</section>
+
+<style>
+    .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 0 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem 0;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--accent);
+        font-family: 'JetBrains Mono', monospace;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 2rem;
+    }
+
+    .nav-links a {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+        color: var(--text);
+        text-decoration: none;
+    }
+
+    .hero-content {
+        padding: 5rem 0 3rem;
+        max-width: 650px;
+        position: relative;
+    }
+
+    .glow-orb {
+        position: absolute;
+        top: -80px;
+        left: -180px;
+        width: 560px;
+        height: 560px;
+        background: radial-gradient(circle, rgba(124, 106, 247, 0.07) 0%, transparent 70%);
+        pointer-events: none;
+        animation: fadeIn 1.2s ease forwards;
+    }
+
+    .badge {
+        display: inline-block;
+        background: var(--accent-glow);
+        border: 1px solid rgba(124, 106, 247, 0.4);
+        color: var(--accent);
+        padding: 0.3rem 1rem;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        margin-bottom: 1.5rem;
+        animation: fadeInUp 0.6s ease 0.1s both;
+    }
+
+    h1 {
+        font-size: 3.5rem;
+        font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.02em;
+        animation: fadeInUp 0.6s ease 0.25s both;
+    }
+
+    .accent {
+        color: var(--accent);
+    }
+
+    .subtitle {
+        font-size: 1.15rem;
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+        max-width: 500px;
+        animation: fadeInUp 0.6s ease 0.4s both;
+    }
+
+    .cta-buttons {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        animation: fadeInUp 0.6s ease 0.55s both;
+    }
+
+    .btn-primary {
+        background: var(--accent);
+        color: white;
+        padding: 0.75rem 1.75rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: opacity 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-primary:hover {
+        opacity: 0.9;
+        box-shadow: 0 0 20px rgba(124, 106, 247, 0.35);
+        text-decoration: none;
+    }
+
+    .btn-secondary {
+        background: var(--bg-card);
+        color: var(--text);
+        padding: 0.75rem 1.75rem;
+        border-radius: 8px;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-secondary:hover {
+        border-color: var(--accent);
+        box-shadow: 0 0 12px rgba(124, 106, 247, 0.1);
+        text-decoration: none;
+    }
+
+    .btn-ghost {
+        color: var(--text-muted);
+        padding: 0.75rem 1.25rem;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+
+    .btn-ghost:hover {
+        color: var(--text);
+        text-decoration: none;
+    }
+
+    .hero-code {
+        display: flex;
+        gap: 1rem;
+        padding-bottom: 4rem;
+        flex-wrap: wrap;
+        animation: fadeIn 0.8s ease 0.7s both;
+    }
+
+    .code-window {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+        flex: 1;
+        min-width: 300px;
+        transition: border-color 0.25s, box-shadow 0.25s;
+    }
+
+    .code-window:hover {
+        border-color: rgba(124, 106, 247, 0.4);
+        box-shadow: 0 0 28px rgba(124, 106, 247, 0.08);
+    }
+
+    .vtec {
+        border-color: #2a3a2a;
+    }
+
+    .vtec:hover {
+        border-color: rgba(74, 222, 128, 0.35);
+        box-shadow: 0 0 28px rgba(74, 222, 128, 0.06);
+    }
+
+    .window-bar {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        background: var(--bg-secondary);
+        border-bottom: 1px solid var(--border);
+    }
+
+    .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+    }
+
+    .dot.red    { background: #ff5f57; }
+    .dot.yellow { background: #febc2e; }
+    .dot.green  { background: #28c840; }
+
+    .filename {
+        margin-left: 0.5rem;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        font-family: 'JetBrains Mono', monospace;
+    }
+
+    pre {
+        padding: 1.5rem;
+        overflow-x: auto;
+        font-size: 0.85rem;
+        line-height: 1.7;
+    }
+
+    /* syntax colors */
+    .k { color: #c792ea; }
+    .t { color: #82aaff; }
+    .f { color: #82e2ff; }
+    .c { color: #546e7a; }
+</style>

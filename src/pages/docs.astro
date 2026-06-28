@@ -1,0 +1,854 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const sections = [
+    { id: 'comments',       label: 'Comments' },
+    { id: 'types',          label: 'Types' },
+    { id: 'variables',      label: 'Variables' },
+    { id: 'operators',      label: 'Operators' },
+    { id: 'casting',        label: 'Casting' },
+    { id: 'control-flow',   label: 'Control Flow' },
+    { id: 'functions',      label: 'Functions' },
+    { id: 'arrays',         label: 'Arrays' },
+    { id: 'strings',        label: 'Strings' },
+    { id: 'pointers',       label: 'Pointers' },
+    { id: 'structs',        label: 'Structs' },
+    { id: 'enums',          label: 'Enums' },
+    { id: 'imports',        label: 'Imports' },
+    { id: 'error-handling', label: 'Error Handling' },
+    { id: 'io',             label: 'I/O' },
+    { id: 'stdlib',         label: 'Standard Library' },
+    { id: 'vectec',	    label: 'VecTec (GPU)' },
+];
+---
+
+<Layout
+    title="Language Reference — Techlang"
+    description="Complete reference for the Techlang programming language — types, control flow, functions, structs, enums, imports, and more."
+>
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="/" class="logo">Techlang</a>
+            <nav class="header-nav">
+                <a href="/docs" class="nav-link active">Docs</a>
+                <a href="https://gummyniki.github.io/portfolio/blog" target="_blank" class="nav-link">Blog</a>
+                <a href="https://github.com/gummyniki/techlang" target="_blank" class="nav-link">GitHub ↗</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="docs-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-title">Language Reference</div>
+            <ul class="toc">
+                {sections.map(s => (
+                    <li>
+                        <a href={`#${s.id}`} class="toc-link" data-section={s.id}>{s.label}</a>
+                    </li>
+                ))}
+            </ul>
+            <div class="sidebar-footer">
+                <a href="https://github.com/gummyniki/techlang" target="_blank" class="sidebar-ext-link">GitHub ↗</a>
+                <a href="https://open-vsx.org/extension/gummyniki/techlang" target="_blank" class="sidebar-ext-link">VS Code ↗</a>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <main class="content">
+            <div class="content-header">
+                <h1>Language Reference</h1>
+                <p>A complete reference for the Techlang programming language.</p>
+            </div>
+
+            <!-- Comments -->
+            <section id="comments">
+                <h2>Comments</h2>
+                <p>Techlang supports single-line comments with <code class="ic">//</code>.</p>
+                <pre class="cb"><code><span class="c">// this is a single line comment</span></code></pre>
+            </section>
+
+            <!-- Types -->
+            <section id="types">
+                <h2>Types</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Type</th><th>Description</th><th>Example</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code class="ic">int</code></td><td>32-bit signed integer</td><td><code class="ic">42</code></td></tr>
+                            <tr><td><code class="ic">float</code></td><td>32-bit floating point</td><td><code class="ic">3.14</code></td></tr>
+                            <tr><td><code class="ic">double</code></td><td>64-bit floating point</td><td><code class="ic">3.14159265</code></td></tr>
+                            <tr><td><code class="ic">char</code></td><td>Single character</td><td><code class="ic">'a'</code></td></tr>
+                            <tr><td><code class="ic">string</code></td><td>String of characters</td><td><code class="ic">"hello"</code></td></tr>
+                            <tr><td><code class="ic">bool</code></td><td>Boolean value</td><td><code class="ic">true</code> or <code class="ic">false</code></td></tr>
+                            <tr><td><code class="ic">ArrayOf(T)</code></td><td>Array of type T</td><td><code class="ic">&#123;1, 2, 3&#125;</code></td></tr>
+                            <tr><td><code class="ic">PointerOf(T)</code></td><td>Pointer to type T</td><td><code class="ic">std.addressOf(x)</code></td></tr>
+                            <tr><td><code class="ic">any</code></td><td>Pointer-sized integer; castable to any type</td><td><code class="ic">42</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h3>Default Values</h3>
+                <p>Every type has a base value used when declaring struct instances:</p>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Type</th><th>Default</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code class="ic">int</code></td><td><code class="ic">0</code></td></tr>
+                            <tr><td><code class="ic">float</code> / <code class="ic">double</code></td><td><code class="ic">0.0</code></td></tr>
+                            <tr><td><code class="ic">char</code></td><td><code class="ic">'\0'</code></td></tr>
+                            <tr><td><code class="ic">string</code></td><td><code class="ic">""</code></td></tr>
+                            <tr><td><code class="ic">bool</code></td><td><code class="ic">false</code></td></tr>
+                            <tr><td>struct</td><td>all fields set to their base values</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Variables -->
+            <section id="variables">
+                <h2>Variables</h2>
+                <h3>Declaration</h3>
+                <pre class="cb"><code><span class="t">int</span> x = <span class="n">5</span>;
+<span class="t">float</span> f = <span class="n">3.14</span>;
+<span class="t">double</span> d = <span class="n">3.14159265</span>;
+<span class="t">char</span> c = <span class="s">'a'</span>;
+<span class="t">string</span> s = <span class="s">"hello world"</span>;
+<span class="t">bool</span> b = <span class="k">true</span>;
+<span class="t">bool</span> b2 = <span class="n">0</span>; <span class="c">// same as false</span></code></pre>
+                <h3>Modifiers</h3>
+                <pre class="cb"><code><span class="t">float</span> pi = <span class="n">3.14</span> [const]; <span class="c">// cannot be reassigned</span></code></pre>
+                <h3>Assignment</h3>
+                <pre class="cb"><code>x = <span class="n">10</span>;
+x += <span class="n">5</span>;
+x -= <span class="n">3</span>;
+x *= <span class="n">2</span>;
+x /= <span class="n">4</span>;</code></pre>
+            </section>
+
+            <!-- Operators -->
+            <section id="operators">
+                <h2>Operators</h2>
+                <h3>Arithmetic</h3>
+                <pre class="cb"><code><span class="t">int</span> a = <span class="n">10</span> + <span class="n">3</span>;  <span class="c">// 13</span>
+<span class="t">int</span> b = <span class="n">10</span> - <span class="n">3</span>;  <span class="c">// 7</span>
+<span class="t">int</span> c = <span class="n">10</span> * <span class="n">3</span>;  <span class="c">// 30</span>
+<span class="t">int</span> d = <span class="n">10</span> / <span class="n">3</span>;  <span class="c">// 3</span>
+<span class="t">int</span> e = <span class="n">10</span> % <span class="n">3</span>;  <span class="c">// 1</span></code></pre>
+                <h3>Comparison</h3>
+                <pre class="cb"><code><span class="t">bool</span> a = <span class="n">5</span> == <span class="n">5</span>;  <span class="c">// true</span>
+<span class="t">bool</span> b = <span class="n">5</span> != <span class="n">3</span>;  <span class="c">// true</span>
+<span class="t">bool</span> c = <span class="n">5</span> &gt; <span class="n">3</span>;   <span class="c">// true</span>
+<span class="t">bool</span> d = <span class="n">5</span> &lt; <span class="n">3</span>;   <span class="c">// false</span>
+<span class="t">bool</span> e = <span class="n">5</span> &gt;= <span class="n">5</span>;  <span class="c">// true</span>
+<span class="t">bool</span> f = <span class="n">5</span> &lt;= <span class="n">3</span>;  <span class="c">// false</span></code></pre>
+                <h3>Logical</h3>
+                <pre class="cb"><code><span class="t">bool</span> a = <span class="k">true</span> &amp;&amp; <span class="k">false</span>; <span class="c">// false</span>
+<span class="t">bool</span> b = <span class="k">true</span> || <span class="k">false</span>; <span class="c">// true</span>
+<span class="t">bool</span> c = !<span class="k">true</span>;         <span class="c">// false</span></code></pre>
+            </section>
+
+            <!-- Casting -->
+            <section id="casting">
+                <h2>Casting</h2>
+                <p>Use the <code class="ic">as</code> keyword to cast between types. Variables of type <code class="ic">any</code> can be cast to all types.</p>
+                <pre class="cb"><code><span class="t">float</span> x = <span class="n">3.14</span>;
+<span class="t">int</span> y = x <span class="k">as</span> <span class="t">int</span>; <span class="c">// 3</span></code></pre>
+            </section>
+
+            <!-- Control Flow -->
+            <section id="control-flow">
+                <h2>Control Flow</h2>
+                <h3>If / Else</h3>
+                <pre class="cb"><code><span class="k">if</span> (x &gt; <span class="n">0</span>) &#123;
+    std.<span class="f">print_string</span>(<span class="s">"positive"</span>);
+&#125; <span class="k">else</span> &#123;
+    std.<span class="f">print_string</span>(<span class="s">"not positive"</span>);
+&#125;</code></pre>
+                <h3>While</h3>
+                <pre class="cb"><code><span class="k">while</span> (x &gt; <span class="n">0</span>) &#123;
+    x -= <span class="n">1</span>;
+&#125;</code></pre>
+                <h3>For</h3>
+                <p>The for loop has three comma-separated parts: <strong>declaration</strong>, <strong>condition</strong>, <strong>increment</strong>.</p>
+                <pre class="cb"><code><span class="k">for</span> (<span class="t">int</span> i = <span class="n">0</span>, i &lt; <span class="n">10</span>, i += <span class="n">1</span>) &#123;
+    std.<span class="f">print_int</span>(i);
+&#125;</code></pre>
+            </section>
+
+            <!-- Functions -->
+            <section id="functions">
+                <h2>Functions</h2>
+                <h3>Declaration</h3>
+                <pre class="cb"><code><span class="k">function</span> <span class="f">add</span>(<span class="t">int</span> a, <span class="t">int</span> b) <span class="k">returns</span> <span class="t">int</span> &#123;
+    <span class="k">return</span> a + b;
+&#125;</code></pre>
+                <h3>Calling</h3>
+                <pre class="cb"><code><span class="t">int</span> result = <span class="f">add</span>(<span class="n">3</span>, <span class="n">4</span>);</code></pre>
+                <h3>Void Functions</h3>
+                <p>Use <code class="ic">none</code> as the return type for functions that don't return a value.</p>
+                <pre class="cb"><code><span class="k">function</span> <span class="f">greet</span>(<span class="t">string</span> name) <span class="k">returns</span> <span class="t">none</span> &#123;
+    std.<span class="f">print_string</span>(name);
+&#125;</code></pre>
+                <h3>Recursion</h3>
+                <pre class="cb"><code><span class="k">function</span> <span class="f">fibonacci</span>(<span class="t">int</span> n) <span class="k">returns</span> <span class="t">int</span> &#123;
+    <span class="k">if</span> (n &lt;= <span class="n">1</span>) &#123;
+        <span class="k">return</span> n;
+    &#125;
+    <span class="k">return</span> <span class="f">fibonacci</span>(n - <span class="n">1</span>) + <span class="f">fibonacci</span>(n - <span class="n">2</span>);
+&#125;</code></pre>
+                <h3>External Functions</h3>
+                <p>Link to C implementations with the <code class="ic">extern</code> keyword:</p>
+                <pre class="cb"><code><span class="k">function</span> <span class="f">my_func</span>(<span class="t">int</span> x) <span class="k">returns</span> <span class="t">int</span> <span class="k">extern</span> <span class="s">"c_function_name"</span> &#123;&#125;</code></pre>
+            </section>
+
+            <!-- Arrays -->
+            <section id="arrays">
+                <h2>Arrays</h2>
+                <h3>Declaration</h3>
+                <pre class="cb"><code><span class="t">ArrayOf</span>(<span class="t">int</span>) nums = &#123;<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>&#125;;
+<span class="t">ArrayOf</span>(<span class="t">float</span>) floats = &#123;<span class="n">1.1</span>, <span class="n">2.2</span>, <span class="n">3.3</span>&#125;;
+<span class="t">ArrayOf</span>(<span class="t">string</span>) words = &#123;<span class="s">"hello"</span>, <span class="s">"world"</span>&#125;;</code></pre>
+                <h3>Access</h3>
+                <pre class="cb"><code><span class="t">int</span> first = nums[<span class="n">0</span>];
+nums[<span class="n">0</span>] = <span class="n">10</span>;</code></pre>
+                <h3>Length</h3>
+                <pre class="cb"><code><span class="t">ArrayOf</span>(<span class="t">int</span>) x = &#123;<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>&#125;;
+std.<span class="f">print</span>(x.length); <span class="c">// 4</span></code></pre>
+                <h3>Passing to Functions</h3>
+                <pre class="cb"><code><span class="k">function</span> <span class="f">sum</span>(<span class="t">ArrayOf</span>(<span class="t">int</span>) arr, <span class="t">int</span> size) <span class="k">returns</span> <span class="t">int</span> &#123;
+    <span class="t">int</span> total = <span class="n">0</span>;
+    <span class="k">for</span> (<span class="t">int</span> i = <span class="n">0</span>, i &lt; size, i += <span class="n">1</span>) &#123;
+        total += arr[i];
+    &#125;
+    <span class="k">return</span> total;
+&#125;
+
+<span class="t">int</span> result = <span class="f">sum</span>(nums, <span class="n">5</span>);</code></pre>
+            </section>
+
+            <!-- Strings -->
+            <section id="strings">
+                <h2>Strings</h2>
+                <h3>Declaration</h3>
+                <pre class="cb"><code><span class="t">string</span> s = <span class="s">"Hello world"</span>;
+<span class="t">string</span> empty = <span class="s">""</span>;</code></pre>
+                <h3>Concatenation</h3>
+                <p>Strings can be concatenated with the <code class="ic">+</code> operator or via <code class="ic">std.concat()</code>:</p>
+                <pre class="cb"><code><span class="t">string</span> first = <span class="s">"Hello"</span>;
+<span class="t">string</span> second = <span class="s">" World"</span>;
+<span class="t">string</span> result = first + second; <span class="c">// "Hello World"</span>
+
+<span class="t">string</span> r2 = std.<span class="f">concat</span>(<span class="s">"foo"</span>, <span class="s">"bar"</span>); <span class="c">// "foobar"</span></code></pre>
+                <h3>Length</h3>
+                <pre class="cb"><code><span class="t">string</span> s = <span class="s">"hello"</span>;
+std.<span class="f">print</span>(s.length); <span class="c">// 5</span></code></pre>
+                <h3>Standard Library String Functions</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Function</th><th>Description</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code class="ic">std.concat(a, b)</code></td><td>Concatenate two strings</td></tr>
+                            <tr><td><code class="ic">std.string_length(s)</code></td><td>Get string length</td></tr>
+                            <tr><td><code class="ic">std.string_equals(a, b)</code></td><td>Compare two strings (returns bool)</td></tr>
+                            <tr><td><code class="ic">std.string_substring(s, start, end)</code></td><td>Get substring</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Pointers -->
+            <section id="pointers">
+                <h2>Pointers</h2>
+                <h3>Getting a Pointer</h3>
+                <pre class="cb"><code><span class="t">int</span> x = <span class="n">5</span>;
+<span class="t">PointerOf</span>(<span class="t">int</span>) p = std.<span class="f">addressOf</span>(x);</code></pre>
+                <h3>Dereferencing</h3>
+                <pre class="cb"><code><span class="t">int</span> value = std.<span class="f">deref</span>(p);</code></pre>
+                <h3>Writing Through a Pointer</h3>
+                <pre class="cb"><code>std.<span class="f">storeAt</span>(p, <span class="n">10</span>); <span class="c">// x is now 10</span></code></pre>
+                <h3>Pass by Reference</h3>
+                <pre class="cb"><code><span class="k">function</span> <span class="f">increment</span>(<span class="t">PointerOf</span>(<span class="t">int</span>) p) <span class="k">returns</span> <span class="t">none</span> &#123;
+    <span class="t">int</span> current = std.<span class="f">deref</span>(p);
+    std.<span class="f">storeAt</span>(p, current + <span class="n">1</span>);
+&#125;
+
+<span class="t">int</span> x = <span class="n">5</span>;
+<span class="f">increment</span>(std.<span class="f">addressOf</span>(x));
+<span class="c">// x is now 6</span></code></pre>
+            </section>
+
+            <!-- Structs -->
+            <section id="structs">
+                <h2>Structs</h2>
+                <h3>Declaration</h3>
+                <pre class="cb"><code><span class="k">struct</span> person = &#123;
+    <span class="t">int</span> age;
+    <span class="t">float</span> height;
+    <span class="t">string</span> name;
+&#125;</code></pre>
+                <h3>Instantiation</h3>
+                <pre class="cb"><code>person p; <span class="c">// all fields set to base values</span></code></pre>
+                <h3>Field Access</h3>
+                <pre class="cb"><code>p.age = <span class="n">30</span>;
+p.height = <span class="n">1.75</span>;
+p.name = <span class="s">"Alice"</span>;</code></pre>
+                <h3>Passing to Functions</h3>
+                <pre class="cb"><code><span class="k">function</span> <span class="f">greet</span>(person p) <span class="k">returns</span> <span class="t">none</span> &#123;
+    std.<span class="f">print_string</span>(p.name);
+&#125;</code></pre>
+            </section>
+
+            <!-- Enums -->
+            <section id="enums">
+                <h2>Enums</h2>
+                <h3>Declaration</h3>
+                <pre class="cb"><code><span class="k">enum</span> direction = &#123;
+    NORTH,      <span class="c">// 0</span>
+    SOUTH,      <span class="c">// 1</span>
+    EAST,       <span class="c">// 2</span>
+    WEST        <span class="c">// 3</span>
+&#125;</code></pre>
+                <h3>Manual Values</h3>
+                <pre class="cb"><code><span class="k">enum</span> levels = &#123;
+    EASY,       <span class="c">// 0</span>
+    MEDIUM,     <span class="c">// 1</span>
+    HARD = <span class="n">9</span>,   <span class="c">// 9</span>
+    EXTREME     <span class="c">// 10</span>
+&#125;</code></pre>
+                <h3>Usage</h3>
+                <p>Enum values are integers and can be used anywhere an <code class="ic">int</code> is expected:</p>
+                <pre class="cb"><code><span class="t">int</span> d = NORTH;
+
+<span class="k">if</span> (d == NORTH) &#123;
+    std.<span class="f">print_string</span>(<span class="s">"Going north!"</span>);
+&#125;</code></pre>
+            </section>
+
+            <!-- Imports -->
+            <section id="imports">
+                <h2>Imports</h2>
+                <p>Split code across multiple files using <code class="ic">!import</code>. The alias prefixes all functions from that file.</p>
+                <pre class="cb"><code><span class="k">!import</span>(math.tec) <span class="k">as</span> math;
+
+<span class="t">int</span> result = math.<span class="f">add</span>(<span class="n">3</span>, <span class="n">4</span>);</code></pre>
+                <p>Imports are resolved relative to the current file's directory. Circular imports are detected and prevented.</p>
+                <h3>Standard Library</h3>
+                <pre class="cb"><code><span class="k">!import</span>(std.tec) <span class="k">as</span> std;</code></pre>
+            </section>
+
+            <!-- Error Handling -->
+            <section id="error-handling">
+                <h2>Error Handling</h2>
+                <p>The recommended pattern for error handling is returning error codes and using <code class="ic">std.exit()</code>:</p>
+                <pre class="cb"><code><span class="k">function</span> <span class="f">divide</span>(<span class="t">int</span> a, <span class="t">int</span> b) <span class="k">returns</span> <span class="t">int</span> &#123;
+    <span class="k">if</span> (b == <span class="n">0</span>) &#123;
+        std.<span class="f">exit</span>(<span class="n">1</span>); <span class="c">// exit with error code</span>
+    &#125;
+    <span class="k">return</span> a / b;
+&#125;</code></pre>
+            </section>
+
+            <!-- I/O -->
+            <section id="io">
+                <h2>I/O</h2>
+                <p>File handles are always of type <code class="ic">any</code>. Pass the file mode as a string (<code class="ic">"r"</code>, <code class="ic">"w"</code>, <code class="ic">"a"</code>).</p>
+                <pre class="cb"><code><span class="c">// Writing</span>
+<span class="t">any</span> f = std.<span class="f">file_open</span>(<span class="s">"hello.txt"</span>, <span class="s">"w"</span>);
+std.<span class="f">file_write</span>(f, <span class="s">"Hello from Techlang!\n"</span>);
+std.<span class="f">file_close</span>(f);
+
+<span class="c">// Reading</span>
+<span class="t">any</span> f2 = std.<span class="f">file_open</span>(<span class="s">"hello.txt"</span>, <span class="s">"r"</span>);
+<span class="t">string</span> line = std.<span class="f">file_read_line</span>(f2);
+<span class="t">int</span> eof = std.<span class="f">file_eof</span>(f2); <span class="c">// 1 if EOF</span>
+std.<span class="f">file_close</span>(f2);
+
+<span class="c">// Deleting</span>
+std.<span class="f">file_delete</span>(<span class="s">"hello.txt"</span>);</code></pre>
+            </section>
+
+            <!-- Standard Library -->
+            <section id="stdlib">
+                <h2>Standard Library</h2>
+                <p>Import with <code class="ic">!import(std.tec) as std;</code></p>
+
+                <h3>Printing</h3>
+                <pre class="cb"><code>std.<span class="f">print_int</span>(<span class="n">42</span>);
+std.<span class="f">print_float</span>(<span class="n">3.14</span>);
+std.<span class="f">print_string</span>(<span class="s">"hello"</span>);
+std.<span class="f">print_char</span>(<span class="s">'a'</span>);
+std.<span class="f">print_bool</span>(<span class="k">true</span>);
+std.<span class="f">print_newline</span>();</code></pre>
+
+                <h3>Input</h3>
+                <pre class="cb"><code><span class="t">int</span> x = std.<span class="f">read_int</span>();
+<span class="t">float</span> f = std.<span class="f">read_float</span>();</code></pre>
+
+                <h3>Math</h3>
+                <pre class="cb"><code><span class="t">float</span> s = std.<span class="f">sqrt</span>(<span class="n">16.0</span>); <span class="c">// 4.0</span></code></pre>
+
+                <h3>Strings</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Function</th><th>Description</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code class="ic">std.concat(a, b)</code></td><td>Concatenate two strings</td></tr>
+                            <tr><td><code class="ic">std.string_length(s)</code></td><td>Length of a string</td></tr>
+                            <tr><td><code class="ic">std.string_equals(a, b)</code></td><td>Compare two strings</td></tr>
+                            <tr><td><code class="ic">std.string_substring(s, start, end)</code></td><td>Extract a substring</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Pointers</h3>
+                <pre class="cb"><code><span class="t">PointerOf</span>(<span class="t">int</span>) p = std.<span class="f">addressOf</span>(x);
+<span class="t">int</span> val = std.<span class="f">deref</span>(p);
+std.<span class="f">storeAt</span>(p, <span class="n">10</span>);</code></pre>
+
+                <h3>File I/O</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Function</th><th>Description</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code class="ic">std.file_open(path, mode)</code></td><td>Open a file (<code class="ic">"r"</code>, <code class="ic">"w"</code>, <code class="ic">"a"</code>)</td></tr>
+                            <tr><td><code class="ic">std.file_write(f, s)</code></td><td>Write string to file</td></tr>
+                            <tr><td><code class="ic">std.file_read_line(f)</code></td><td>Read next line from file</td></tr>
+                            <tr><td><code class="ic">std.file_eof(f)</code></td><td>Returns 1 if at end-of-file</td></tr>
+                            <tr><td><code class="ic">std.file_close(f)</code></td><td>Close a file handle</td></tr>
+                            <tr><td><code class="ic">std.file_delete(path)</code></td><td>Delete a file</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Program Control</h3>
+                <pre class="cb"><code>std.<span class="f">exit</span>(<span class="n">0</span>);  <span class="c">// exit with code 0 (success)</span>
+std.<span class="f">exit</span>(<span class="n">1</span>);  <span class="c">// exit with code 1 (error)</span></code></pre>
+	    </section>
+
+	   <section id="vectec">
+    <h2>VecTec — GPU Compute</h2>
+    <p>
+        VecTec is a companion language to Techlang that runs code on the GPU.
+        VecTec kernels are written in <code class="ic">.vtec</code> files and 
+        called from Techlang with zero boilerplate — the compiler handles all 
+        CUDA memory management automatically.
+    </p>
+
+    <h3>Requirements</h3>
+    <p>VecTec requires an NVIDIA GPU and the CUDA toolkit installed.</p>
+    <pre class="cb"><code><span class="c"># Arch Linux</span>
+sudo pacman -S cuda
+
+<span class="c"># Ubuntu</span>
+sudo apt install nvidia-cuda-toolkit</code></pre>
+
+    <h3>Writing a Kernel</h3>
+    <p>
+        Kernels are functions that run on the GPU. 
+        Every thread runs the kernel simultaneously — 
+        use <code class="ic">threadId()</code> to know which element to process.
+    </p>
+    <pre class="cb"><code><span class="c">// arrays.vtec</span>
+<span class="k">kernel</span> <span class="f">addArrays</span>(
+    <span class="t">ArrayOf</span>(<span class="t">float</span>) a,
+    <span class="t">ArrayOf</span>(<span class="t">float</span>) b
+) <span class="k">returns</span> <span class="t">ArrayOf</span>(<span class="t">float</span>) &#123;
+    <span class="t">int</span> id = <span class="f">threadId</span>();
+    <span class="k">return</span> a[id] + b[id];
+&#125;</code></pre>
+
+    <h3>Calling from Techlang</h3>
+    <p>
+        Import a <code class="ic">.vtec</code> file just like any other Techlang module.
+        The compiler automatically compiles the kernel to PTX, generates the 
+        CUDA runtime wrapper, and links everything together.
+    </p>
+    <pre class="cb"><code><span class="k">!import</span>(std.tec) <span class="k">as</span> std;
+<span class="k">!import</span>(arrays.vtec) <span class="k">as</span> gpu;
+
+<span class="k">function</span> <span class="f">main</span>() <span class="k">returns</span> <span class="t">none</span> &#123;
+    <span class="t">ArrayOf</span>(<span class="t">float</span>) a = &#123;<span class="n">1.0</span>, <span class="n">2.0</span>, <span class="n">3.0</span>, <span class="n">4.0</span>&#125;;
+    <span class="t">ArrayOf</span>(<span class="t">float</span>) b = &#123;<span class="n">5.0</span>, <span class="n">6.0</span>, <span class="n">7.0</span>, <span class="n">8.0</span>&#125;;
+
+    <span class="c">// runs on the GPU — zero boilerplate!</span>
+    <span class="t">ArrayOf</span>(<span class="t">float</span>) result = gpu.<span class="f">addArrays</span>(a, b);
+
+    std.<span class="f">print</span>(result[<span class="n">0</span>]); <span class="c">// 6.0</span>
+    std.<span class="f">print</span>(result[<span class="n">1</span>]); <span class="c">// 8.0</span>
+&#125;</code></pre>
+
+    <h3>Built-in Functions</h3>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>Function</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code class="ic">threadId()</code></td>
+                    <td>Returns the current thread's ID (0 to N-1)</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">threadCount()</code></td>
+                    <td>Returns the total number of threads in the block</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Supported Types in Kernels</h3>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>Type</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code class="ic">int</code></td><td>32-bit integer</td></tr>
+                <tr><td><code class="ic">float</code></td><td>32-bit float</td></tr>
+                <tr><td><code class="ic">double</code></td><td>64-bit float</td></tr>
+                <tr><td><code class="ic">bool</code></td><td>1-bit integer</td></tr>
+                <tr><td><code class="ic">ArrayOf(T)</code></td><td>Passed as pointer — one element per thread</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>How it Works</h3>
+    <p>When you import a <code class="ic">.vtec</code> file, the Techlang compiler:</p>
+    <pre class="cb"><code><span class="c">arrays.vtec</span>
+    ↓
+<span class="c">VecTec compiler (LLVM NVPTX backend)</span>
+    ↓
+<span class="c">arrays.ptx  (GPU assembly)</span>
+    ↓
+<span class="c">Auto-generated C wrapper with embedded PTX</span>
+    ↓
+<span class="c">nvcc compiles wrapper → arrays_runtime.o</span>
+    ↓
+<span class="c">Linked with your Techlang binary automatically</span></code></pre>
+
+    <h3>Kernel Rules</h3>
+    <p>A few things to keep in mind when writing VecTec kernels:</p>
+    <ul class="rules-list">
+        <li>One thread processes one element — use <code class="ic">threadId()</code> as the array index</li>
+        <li>The number of threads launched equals the size of the first array parameter</li>
+        <li>Kernels cannot call Techlang functions</li>
+        <li>No string or file I/O inside kernels</li>
+        <li>Shared memory support coming in a future release</li>
+    </ul>
+</section>
+        </main>
+    </div>
+</Layout>
+
+<script>
+    // Highlight active TOC item based on scroll position
+    const links = document.querySelectorAll<HTMLAnchorElement>('.toc-link');
+    const sections = document.querySelectorAll<HTMLElement>('main section[id]');
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    links.forEach(l => l.classList.remove('toc-active'));
+                    const active = document.querySelector(`.toc-link[data-section="${entry.target.id}"]`);
+                    if (active) active.classList.add('toc-active');
+                }
+            });
+        },
+        { rootMargin: '-20% 0px -70% 0px' }
+    );
+
+    sections.forEach(s => observer.observe(s));
+</script>
+
+<style>
+    /* ---- Header ---- */
+    .site-header {
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        background: rgba(13, 13, 13, 0.92);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        z-index: 50;
+    }
+
+    .header-inner {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 1.1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--accent);
+        font-family: 'JetBrains Mono', monospace;
+        text-decoration: none;
+    }
+    .logo:hover { text-decoration: none; opacity: 0.85; }
+
+    .header-nav {
+        display: flex;
+        gap: 2rem;
+    }
+
+    .nav-link {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        transition: color 0.2s;
+        text-decoration: none;
+    }
+    .nav-link:hover { color: var(--text); text-decoration: none; }
+    .nav-link.active { color: var(--accent); }
+
+    /* ---- Layout ---- */
+    .docs-layout {
+        display: flex;
+        max-width: 1400px;
+        margin: 0 auto;
+        min-height: calc(100vh - 57px);
+    }
+
+    /* ---- Sidebar ---- */
+    .sidebar {
+        width: 250px;
+        flex-shrink: 0;
+        position: sticky;
+        top: 57px;
+        height: calc(100vh - 57px);
+        overflow-y: auto;
+        border-right: 1px solid var(--border);
+        padding: 2rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sidebar-title {
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--text-muted);
+        margin-bottom: 1rem;
+    }
+
+    .toc {
+        list-style: none;
+        flex: 1;
+    }
+
+    .toc li { margin-bottom: 0.1rem; }
+
+    .toc-link {
+        display: block;
+        padding: 0.35rem 0.75rem;
+        border-radius: 6px;
+        color: var(--text-muted);
+        font-size: 0.875rem;
+        transition: color 0.15s, background 0.15s;
+        text-decoration: none;
+    }
+    .toc-link:hover {
+        color: var(--text);
+        background: rgba(255,255,255,0.04);
+        text-decoration: none;
+    }
+    .toc-link.toc-active {
+        color: var(--accent);
+        background: var(--accent-glow);
+    }
+
+    .sidebar-footer {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .sidebar-ext-link {
+        color: var(--text-muted);
+        font-size: 0.8rem;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    .sidebar-ext-link:hover { color: var(--text); text-decoration: none; }
+
+    /* ---- Content ---- */
+    .content {
+        flex: 1;
+        padding: 3rem 4rem;
+        max-width: 800px;
+        min-width: 0;
+    }
+
+    .content-header {
+        margin-bottom: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .rules-list {
+    	list-style: none;
+    	display: flex;
+    	flex-direction: column;
+    	gap: 0.5rem;
+    	margin: 0.75rem 0;
+}
+
+    .rules-list li {
+    	color: var(--text-muted);
+    	font-size: 0.95rem;
+    	padding-left: 1.25rem;
+    	position: relative;
+    }
+
+    .rules-list li::before {
+    	content: "→";
+    	position: absolute;
+    	left: 0;
+    	color: var(--accent);
+    }
+
+    .content-header h1 {
+        font-size: 2.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.02em;
+    }
+
+    .content-header p {
+        color: var(--text-muted);
+        font-size: 1rem;
+    }
+
+    /* Sections */
+    section {
+        margin-bottom: 3.5rem;
+        scroll-margin-top: 80px;
+    }
+
+    section h2 {
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        padding-bottom: 0.6rem;
+        border-bottom: 1px solid var(--border);
+        letter-spacing: -0.015em;
+    }
+
+    section h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-size: 0.8rem;
+        margin: 1.5rem 0 0.6rem;
+    }
+
+    section p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        line-height: 1.7;
+        margin-bottom: 0.75rem;
+    }
+
+    /* Code blocks */
+    pre.cb {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 1.1rem 1.4rem;
+        font-size: 0.83rem;
+        line-height: 1.75;
+        overflow-x: auto;
+        color: var(--text);
+        margin: 0.75rem 0 1rem;
+        font-family: 'JetBrains Mono', monospace;
+        transition: border-color 0.2s;
+    }
+    pre.cb:hover { border-color: #3a3a3a; }
+
+    /* Inline code */
+    code.ic {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 0.1em 0.45em;
+        font-size: 0.82em;
+        font-family: 'JetBrains Mono', monospace;
+        color: var(--text);
+    }
+
+    /* Syntax highlight spans */
+    .k { color: #c792ea; }
+    .t { color: #82aaff; }
+    .f { color: #82e2ff; }
+    .c { color: #546e7a; }
+    .s { color: #c3e88d; }
+    .n { color: #f78c6c; }
+
+    /* Tables */
+    .table-wrap {
+        overflow-x: auto;
+        margin: 0.75rem 0 1rem;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.875rem;
+    }
+
+    thead tr {
+        background: var(--bg-secondary);
+    }
+
+    th {
+        padding: 0.65rem 1rem;
+        text-align: left;
+        font-weight: 600;
+        color: var(--text-muted);
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 1px solid var(--border);
+    }
+
+    td {
+        padding: 0.65rem 1rem;
+        border-bottom: 1px solid var(--border);
+        color: var(--text);
+        vertical-align: top;
+    }
+
+    tbody tr:last-child td { border-bottom: none; }
+
+    tbody tr:hover {
+        background: rgba(255,255,255,0.02);
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+        .sidebar { display: none; }
+        .content { padding: 2rem 1.5rem; }
+    }
+</style>
