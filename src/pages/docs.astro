@@ -28,9 +28,9 @@ const sections = [
 >
     <header class="site-header">
         <div class="header-inner">
-            <a href="/" class="logo">Techlang</a>
+            <a href={import.meta.env.BASE_URL} class="logo">Techlang</a>
             <nav class="header-nav">
-                <a href="/docs" class="nav-link active">Docs</a>
+                <a href={`${import.meta.env.BASE_URL}docs`} class="nav-link active">Docs</a>
                 <a href="https://gummyniki.github.io/portfolio/blog" target="_blank" class="nav-link">Blog</a>
                 <a href="https://github.com/gummyniki/techlang" target="_blank" class="nav-link">GitHub ↗</a>
             </nav>
