@@ -267,19 +267,18 @@ std.<span class="f">print</span>(s.length); <span class="c">// 5</span></code></
                 <h2>Pointers</h2>
                 <h3>Getting a Pointer</h3>
                 <pre class="cb"><code><span class="t">int</span> x = <span class="n">5</span>;
-<span class="t">PointerOf</span>(<span class="t">int</span>) p = std.<span class="f">addressOf</span>(x);</code></pre>
+<span class="t">int *</span>p = <span class="f">x.address</span>;</code></pre>
                 <h3>Dereferencing</h3>
-                <pre class="cb"><code><span class="t">int</span> value = std.<span class="f">deref</span>(p);</code></pre>
+                <pre class="cb"><code><span class="t">int</span> value = <span class="f">p.value</span>;</code></pre>
                 <h3>Writing Through a Pointer</h3>
-                <pre class="cb"><code>std.<span class="f">storeAt</span>(p, <span class="n">10</span>); <span class="c">// x is now 10</span></code></pre>
+                <pre class="cb"><code><span class="f">p.</span>value = <span class="n">10</span>; <span class="c">// x is now 10</span></code></pre>
                 <h3>Pass by Reference</h3>
-                <pre class="cb"><code><span class="k">function</span> <span class="f">increment</span>(<span class="t">PointerOf</span>(<span class="t">int</span>) p) <span class="k">returns</span> <span class="t">none</span> &#123;
-    <span class="t">int</span> current = std.<span class="f">deref</span>(p);
-    std.<span class="f">storeAt</span>(p, current + <span class="n">1</span>);
+                <pre class="cb"><code><span class="k">function</span> <span class="f">increment</span>(<span class="t">int *</span>p) <span class="k">returns</span> <span class="t">none</span> &#123;
+    <span class="f">p.</span>value += <span class="n">1</span>;
 &#125;
 
 <span class="t">int</span> x = <span class="n">5</span>;
-<span class="f">increment</span>(std.<span class="f">addressOf</span>(x));
+<span class="f">increment</span>(<span class="f">x</span>.address);
 <span class="c">// x is now 6</span></code></pre>
             </section>
 
