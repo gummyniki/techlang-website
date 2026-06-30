@@ -43,11 +43,11 @@
 <span class="k">!import</span>(arrays.vtec) <span class="k">as</span> gpu;
 
 <span class="k">function</span> <span class="f">main</span>() <span class="k">returns</span> <span class="t">none</span> &#123;
-    <span class="t">ArrayOf</span>(<span class="t">float</span>) a = &#123;1.0, 2.0, 3.0, 4.0&#125;;
-    <span class="t">ArrayOf</span>(<span class="t">float</span>) b = &#123;5.0, 6.0, 7.0, 8.0&#125;;
+    <span class="t"></span><span class="t">float[]</span> a = &#123;1.0, 2.0, 3.0, 4.0&#125;;
+    <span class="t"></span><span class="t">float[]</span> b = &#123;5.0, 6.0, 7.0, 8.0&#125;;
 
     <span class="c">// runs on your GPU automatically!</span>
-    <span class="t">ArrayOf</span>(<span class="t">float</span>) result = gpu.<span class="f">addArrays</span>(a, b);
+    <span class="t"></span><span class="t">float[]</span> result = gpu.<span class="f">addArrays</span>(a, b);
     std.<span class="f">print</span>(result[0]); <span class="c">// 6.0</span>
 &#125;</code></pre>
         </div>
@@ -60,9 +60,9 @@
             </div>
             <pre><code><span class="c">// GPU kernel</span>
 <span class="k">kernel</span> <span class="f">addArrays</span>(
-    <span class="t">ArrayOf</span>(<span class="t">float</span>) a,
-    <span class="t">ArrayOf</span>(<span class="t">float</span>) b
-) <span class="k">returns</span> <span class="t">ArrayOf</span>(<span class="t">float</span>) &#123;
+    <span class="t"></span><span class="t">float[]</span> a,
+    <span class="t"></span><span class="t">float[]</span> b
+) <span class="k">returns</span> <span class="t"></span><span class="t">float[]</span> &#123;
     <span class="t">int</span> id = <span class="f">threadId</span>();
     <span class="k">return</span> a[id] + b[id];
 &#125;</code></pre>

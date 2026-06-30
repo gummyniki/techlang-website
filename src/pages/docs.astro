@@ -83,8 +83,8 @@ const sections = [
                             <tr><td><code class="ic">char</code></td><td>Single character</td><td><code class="ic">'a'</code></td></tr>
                             <tr><td><code class="ic">string</code></td><td>String of characters</td><td><code class="ic">"hello"</code></td></tr>
                             <tr><td><code class="ic">bool</code></td><td>Boolean value</td><td><code class="ic">true</code> or <code class="ic">false</code></td></tr>
-                            <tr><td><code class="ic">ArrayOf(T)</code></td><td>Array of type T</td><td><code class="ic">&#123;1, 2, 3&#125;</code></td></tr>
-                            <tr><td><code class="ic">PointerOf(T)</code></td><td>Pointer to type T</td><td><code class="ic">std.addressOf(x)</code></td></tr>
+                            <tr><td><code class="ic">T[]</code></td><td>Array of type T</td><td><code class="ic">&#123;1, 2, 3&#125;</code></td></tr>
+                            <tr><td><code class="ic">T*</code></td><td>Pointer to type T</td><td><code class="ic">std.addressOf(x)</code></td></tr>
                             <tr><td><code class="ic">any</code></td><td>Pointer-sized integer; castable to any type</td><td><code class="ic">42</code></td></tr>
                         </tbody>
                     </table>
@@ -209,17 +209,17 @@ x /= <span class="n">4</span>;</code></pre>
             <section id="arrays">
                 <h2>Arrays</h2>
                 <h3>Declaration</h3>
-                <pre class="cb"><code><span class="t">ArrayOf</span>(<span class="t">int</span>) nums = &#123;<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>&#125;;
-<span class="t">ArrayOf</span>(<span class="t">float</span>) floats = &#123;<span class="n">1.1</span>, <span class="n">2.2</span>, <span class="n">3.3</span>&#125;;
-<span class="t">ArrayOf</span>(<span class="t">string</span>) words = &#123;<span class="s">"hello"</span>, <span class="s">"world"</span>&#125;;</code></pre>
+                <pre class="cb"><code><span class="t"></span><span class="t">int[]</span> nums = &#123;<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>&#125;;
+<span class="t"></span><span class="t">float[]</span> floats = &#123;<span class="n">1.1</span>, <span class="n">2.2</span>, <span class="n">3.3</span>&#125;;
+<span class="t"></span><span class="t">string[]</span> words = &#123;<span class="s">"hello"</span>, <span class="s">"world"</span>&#125;;</code></pre>
                 <h3>Access</h3>
                 <pre class="cb"><code><span class="t">int</span> first = nums[<span class="n">0</span>];
 nums[<span class="n">0</span>] = <span class="n">10</span>;</code></pre>
                 <h3>Length</h3>
-                <pre class="cb"><code><span class="t">ArrayOf</span>(<span class="t">int</span>) x = &#123;<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>&#125;;
+                <pre class="cb"><code><span class="t"></span><span class="t">int[]</span> x = &#123;<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>&#125;;
 std.<span class="f">print</span>(x.length); <span class="c">// 4</span></code></pre>
                 <h3>Passing to Functions</h3>
-                <pre class="cb"><code><span class="k">function</span> <span class="f">sum</span>(<span class="t">ArrayOf</span>(<span class="t">int</span>) arr, <span class="t">int</span> size) <span class="k">returns</span> <span class="t">int</span> &#123;
+                <pre class="cb"><code><span class="k">function</span> <span class="f">sum</span>(<span class="t"></span><span class="t">int[]</span> arr, <span class="t">int</span> size) <span class="k">returns</span> <span class="t">int</span> &#123;
     <span class="t">int</span> total = <span class="n">0</span>;
     <span class="k">for</span> (<span class="t">int</span> i = <span class="n">0</span>, i &lt; size, i += <span class="n">1</span>) &#123;
         total += arr[i];
@@ -408,9 +408,9 @@ std.<span class="f">print_newline</span>();</code></pre>
                 </div>
 
                 <h3>Pointers</h3>
-                <pre class="cb"><code><span class="t">PointerOf</span>(<span class="t">int</span>) p = std.<span class="f">addressOf</span>(x);
-<span class="t">int</span> val = std.<span class="f">deref</span>(p);
-std.<span class="f">storeAt</span>(p, <span class="n">10</span>);</code></pre>
+                <pre class="cb"><code><span class="t"></span>(<span class="t">int *</span>)p = <span class="f">x.</span>adress;
+<span class="t">int</span> val = <span class="f">p/</span>value;
+<span class="f">p.</span>value =  <span class="n">10</span>;</code></pre>
 
                 <h3>File I/O</h3>
                 <div class="table-wrap">
@@ -459,9 +459,9 @@ sudo apt install nvidia-cuda-toolkit</code></pre>
     </p>
     <pre class="cb"><code><span class="c">// arrays.vtec</span>
 <span class="k">kernel</span> <span class="f">addArrays</span>(
-    <span class="t">ArrayOf</span>(<span class="t">float</span>) a,
-    <span class="t">ArrayOf</span>(<span class="t">float</span>) b
-) <span class="k">returns</span> <span class="t">ArrayOf</span>(<span class="t">float</span>) &#123;
+    <span class="t"></span><span class="t">float[]</span> a,
+    <span class="t"></span><span class="t">float[]</span> b
+) <span class="k">returns</span> <span class="t"></span>(<span class="t">float[]</span>) &#123;
     <span class="t">int</span> id = <span class="f">threadId</span>();
     <span class="k">return</span> a[id] + b[id];
 &#125;</code></pre>
@@ -476,11 +476,11 @@ sudo apt install nvidia-cuda-toolkit</code></pre>
 <span class="k">!import</span>(arrays.vtec) <span class="k">as</span> gpu;
 
 <span class="k">function</span> <span class="f">main</span>() <span class="k">returns</span> <span class="t">none</span> &#123;
-    <span class="t">ArrayOf</span>(<span class="t">float</span>) a = &#123;<span class="n">1.0</span>, <span class="n">2.0</span>, <span class="n">3.0</span>, <span class="n">4.0</span>&#125;;
-    <span class="t">ArrayOf</span>(<span class="t">float</span>) b = &#123;<span class="n">5.0</span>, <span class="n">6.0</span>, <span class="n">7.0</span>, <span class="n">8.0</span>&#125;;
+    <span class="t"></span><span class="t">float[]</span> a = &#123;<span class="n">1.0</span>, <span class="n">2.0</span>, <span class="n">3.0</span>, <span class="n">4.0</span>&#125;;
+    <span class="t"></span><span class="t">float[]</span> b = &#123;<span class="n">5.0</span>, <span class="n">6.0</span>, <span class="n">7.0</span>, <span class="n">8.0</span>&#125;;
 
     <span class="c">// runs on the GPU — zero boilerplate!</span>
-    <span class="t">ArrayOf</span>(<span class="t">float</span>) result = gpu.<span class="f">addArrays</span>(a, b);
+    <span class="t"></span><span class="t">float[]</span> result = gpu.<span class="f">addArrays</span>(a, b);
 
     std.<span class="f">print</span>(result[<span class="n">0</span>]); <span class="c">// 6.0</span>
     std.<span class="f">print</span>(result[<span class="n">1</span>]); <span class="c">// 8.0</span>
@@ -516,7 +516,7 @@ sudo apt install nvidia-cuda-toolkit</code></pre>
                 <tr><td><code class="ic">float</code></td><td>32-bit float</td></tr>
                 <tr><td><code class="ic">double</code></td><td>64-bit float</td></tr>
                 <tr><td><code class="ic">bool</code></td><td>1-bit integer</td></tr>
-                <tr><td><code class="ic">ArrayOf(T)</code></td><td>Passed as pointer — one element per thread</td></tr>
+                <tr><td><code class="ic">T[]</code></td><td>Passed as pointer — one element per thread</td></tr>
             </tbody>
         </table>
     </div>
